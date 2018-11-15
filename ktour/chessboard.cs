@@ -59,6 +59,46 @@ public class ChessBoard
 		return (row >= 0 && row < NumRows() && col >= 0 && col < NumCols());
 	}
 
+    private void AddOneMoveToSurroundingSquares(Location loc)
+    {
+        if (IsLocationInBounds(loc.row + 1, loc.col + 2))
+            numMovesFromSquare[loc.row + 1][loc.col + 2]++;
+        if (IsLocationInBounds(loc.row - 1, loc.col + 2))
+            numMovesFromSquare[loc.row - 1][loc.col + 2]++;
+        if (IsLocationInBounds(loc.row + 1, loc.col - 2))
+            numMovesFromSquare[loc.row + 1][loc.col - 2]++;
+        if (IsLocationInBounds(loc.row - 1, loc.col - 2))
+            numMovesFromSquare[loc.row - 1][loc.col - 2]++;
+        if (IsLocationInBounds(loc.row + 2, loc.col + 1))
+            numMovesFromSquare[loc.row + 2][loc.col + 1]++;
+        if (IsLocationInBounds(loc.row - 2, loc.col + 1))
+            numMovesFromSquare[loc.row - 2][loc.col + 1]++;
+        if (IsLocationInBounds(loc.row + 2, loc.col - 1))
+            numMovesFromSquare[loc.row + 2][loc.col - 1]++;
+        if (IsLocationInBounds(loc.row - 2, loc.col - 1))
+            numMovesFromSquare[loc.row - 2][loc.col - 1]++;
+    }
+
+    private void SubtractOneMoveFromSurroundingSquares(Location loc)
+    {
+        if (IsLocationInBounds(loc.row + 1, loc.col + 2))
+            numMovesFromSquare[loc.row + 1][loc.col + 2]--;
+        if (IsLocationInBounds(loc.row - 1, loc.col + 2))
+            numMovesFromSquare[loc.row - 1][loc.col + 2]--;
+        if (IsLocationInBounds(loc.row + 1, loc.col - 2))
+            numMovesFromSquare[loc.row + 1][loc.col - 2]--;
+        if (IsLocationInBounds(loc.row - 1, loc.col - 2))
+            numMovesFromSquare[loc.row - 1][loc.col - 2]--;
+        if (IsLocationInBounds(loc.row + 2, loc.col + 1))
+            numMovesFromSquare[loc.row + 2][loc.col + 1]--;
+        if (IsLocationInBounds(loc.row - 2, loc.col + 1))
+            numMovesFromSquare[loc.row - 2][loc.col + 1]--;
+        if (IsLocationInBounds(loc.row + 2, loc.col - 1))
+            numMovesFromSquare[loc.row + 2][loc.col - 1]--;
+        if (IsLocationInBounds(loc.row - 2, loc.col - 1))
+            numMovesFromSquare[loc.row - 2][loc.col - 1]--;
+    }
+
 	private void RecalcNumMovesFromSquares()
 	{
 		int numMoves;
@@ -90,14 +130,14 @@ public class ChessBoard
     {
         if (currentLoc.row == -1)
         {
-            move(new Location(row, col));
+            Move(new Location(row, col));
             return true;
         }
         else
             return false;
     }
 
-	void move(Location loc)
+	void Move(Location loc)
 	{
 		if (currentLoc.row != -1)
 		{
@@ -112,7 +152,7 @@ public class ChessBoard
     {
         if (solution.Peek() != null)
         {
-            move(solution.Pop());
+            Move(solution.Pop());
             return true;
         }
         else
@@ -146,7 +186,7 @@ public class ChessBoard
 		}
 	}
   
-	public bool attemptSolutionWarnsdorf()
+	public bool AttemptSolutionWarnsdorf()
 	{
 		Stopwatch watch = new Stopwatch();
 		watch.Start();
@@ -164,15 +204,17 @@ public class ChessBoard
 				if (moveCount % 1000000 == 0)
 					Console.WriteLine(moveCount);
                 currentLoc.MovesTried.Add(nextMove);
-                move(nextMove);
-                RecalcNumMovesFromSquares();
+                Move(nextMove);
+                //RecalcNumMovesFromSquares();
+                SubtractOneMoveFromSurroundingSquares(currentLoc);
             }
 			else
 			{
                 while (prevLocations.Peek() != null)
                 {
+                    AddOneMoveToSurroundingSquares(currentLoc);
                     TakeBack();
-                    RecalcNumMovesFromSquares();
+                    //RecalcNumMovesFromSquares();
                     if (currentLoc.TiedLocation && currentLoc.MovesTried.Count == numMovesFromSquare[currentLoc.row][currentLoc.col])
                         currentLoc.TiedLocation = false;
                     if (currentLoc.TiedLocation)
@@ -192,6 +234,7 @@ public class ChessBoard
                 TakeBack();
             }
             TakeBack();
+            Console.WriteLine(watch.ElapsedMilliseconds);
             return true;
         }
         else
@@ -309,7 +352,7 @@ public class ChessBoard
         return tied;
 	}
 
-	void printBoard()
+	void PrintBoard()
 	{
 		String strRow;
 		for (int row = 0; row < NumRows(); row++)

@@ -31,23 +31,27 @@
             this.solveButton = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.ChessBoardGrid = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.forwardButton = new System.Windows.Forms.Button();
             this.backButton = new System.Windows.Forms.Button();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.boardSizeButton = new System.Windows.Forms.Button();
+            this.rowsUpDown = new System.Windows.Forms.NumericUpDown();
+            this.colsUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ChessBoardGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rowsUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.colsUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // solveButton
             // 
             this.solveButton.Enabled = false;
-            this.solveButton.Location = new System.Drawing.Point(12, 12);
+            this.solveButton.Location = new System.Drawing.Point(3, 3);
             this.solveButton.Name = "solveButton";
             this.solveButton.Size = new System.Drawing.Size(75, 23);
             this.solveButton.TabIndex = 0;
@@ -68,87 +72,23 @@
             this.ChessBoardGrid.AllowUserToResizeRows = false;
             this.ChessBoardGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ChessBoardGrid.ColumnHeadersVisible = false;
-            this.ChessBoardGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5,
-            this.Column6,
-            this.Column7,
-            this.Column8});
+            this.ChessBoardGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ChessBoardGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.ChessBoardGrid.Location = new System.Drawing.Point(12, 55);
+            this.ChessBoardGrid.Location = new System.Drawing.Point(0, 0);
             this.ChessBoardGrid.MultiSelect = false;
             this.ChessBoardGrid.Name = "ChessBoardGrid";
             this.ChessBoardGrid.ReadOnly = true;
             this.ChessBoardGrid.RowHeadersVisible = false;
             this.ChessBoardGrid.RowTemplate.Height = 41;
             this.ChessBoardGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.ChessBoardGrid.Size = new System.Drawing.Size(597, 374);
+            this.ChessBoardGrid.Size = new System.Drawing.Size(631, 390);
             this.ChessBoardGrid.TabIndex = 1;
             this.ChessBoardGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChessBoardGrid_CellDoubleClick);
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Column1";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 41;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Column2";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 41;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Column3";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 41;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Column4";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 41;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Column5";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            this.Column5.Width = 41;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Column6";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            this.Column6.Width = 41;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "Column7";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            this.Column7.Width = 41;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Column8";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            this.Column8.Width = 41;
             // 
             // forwardButton
             // 
             this.forwardButton.Enabled = false;
-            this.forwardButton.Location = new System.Drawing.Point(93, 12);
+            this.forwardButton.Location = new System.Drawing.Point(82, 3);
             this.forwardButton.Name = "forwardButton";
             this.forwardButton.Size = new System.Drawing.Size(75, 23);
             this.forwardButton.TabIndex = 2;
@@ -159,7 +99,7 @@
             // backButton
             // 
             this.backButton.Enabled = false;
-            this.backButton.Location = new System.Drawing.Point(174, 12);
+            this.backButton.Location = new System.Drawing.Point(163, 3);
             this.backButton.Name = "backButton";
             this.backButton.Size = new System.Drawing.Size(75, 23);
             this.backButton.TabIndex = 3;
@@ -167,18 +107,120 @@
             this.backButton.UseVisualStyleBackColor = true;
             this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.label2);
+            this.splitContainer1.Panel1.Controls.Add(this.label1);
+            this.splitContainer1.Panel1.Controls.Add(this.colsUpDown);
+            this.splitContainer1.Panel1.Controls.Add(this.rowsUpDown);
+            this.splitContainer1.Panel1.Controls.Add(this.boardSizeButton);
+            this.splitContainer1.Panel1.Controls.Add(this.backButton);
+            this.splitContainer1.Panel1.Controls.Add(this.forwardButton);
+            this.splitContainer1.Panel1.Controls.Add(this.solveButton);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.ChessBoardGrid);
+            this.splitContainer1.Size = new System.Drawing.Size(631, 441);
+            this.splitContainer1.SplitterDistance = 47;
+            this.splitContainer1.TabIndex = 4;
+            // 
+            // boardSizeButton
+            // 
+            this.boardSizeButton.Location = new System.Drawing.Point(430, 4);
+            this.boardSizeButton.Name = "boardSizeButton";
+            this.boardSizeButton.Size = new System.Drawing.Size(146, 23);
+            this.boardSizeButton.TabIndex = 4;
+            this.boardSizeButton.Text = "Change Board Size/Reset";
+            this.boardSizeButton.UseVisualStyleBackColor = true;
+            this.boardSizeButton.Click += new System.EventHandler(this.boardSizeButton_Click);
+            // 
+            // rowsUpDown
+            // 
+            this.rowsUpDown.Location = new System.Drawing.Point(300, 6);
+            this.rowsUpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.rowsUpDown.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.rowsUpDown.Name = "rowsUpDown";
+            this.rowsUpDown.Size = new System.Drawing.Size(43, 20);
+            this.rowsUpDown.TabIndex = 5;
+            this.rowsUpDown.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            // 
+            // colsUpDown
+            // 
+            this.colsUpDown.Location = new System.Drawing.Point(385, 6);
+            this.colsUpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.colsUpDown.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.colsUpDown.Name = "colsUpDown";
+            this.colsUpDown.Size = new System.Drawing.Size(39, 20);
+            this.colsUpDown.TabIndex = 6;
+            this.colsUpDown.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(257, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(37, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Rows:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(349, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(30, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Cols:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(631, 441);
-            this.Controls.Add(this.backButton);
-            this.Controls.Add(this.forwardButton);
-            this.Controls.Add(this.ChessBoardGrid);
-            this.Controls.Add(this.solveButton);
+            this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.ChessBoardGrid)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.rowsUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.colsUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -188,16 +230,14 @@
         private System.Windows.Forms.Button solveButton;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.DataGridView ChessBoardGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.Button forwardButton;
         private System.Windows.Forms.Button backButton;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Button boardSizeButton;
+        private System.Windows.Forms.NumericUpDown colsUpDown;
+        private System.Windows.Forms.NumericUpDown rowsUpDown;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
 
