@@ -7,23 +7,43 @@ namespace ktour
     public partial class Form1 : Form
     {
         private ChessBoard board;
+
         public Form1()
         {
             InitializeComponent();
-            for (int i = 0; i < 8; i++)
-                ChessBoardGrid.Rows.Add("", "", "", "", "", "", "", "");
-            board = new ChessBoard();
+            board = new ChessBoard(8, 8);
+            BuildGrid(8, 8);
+            SetDoubleBuffered(ChessBoardGrid);
+        }
+
+        public static void SetDoubleBuffered(Control c)
+        {
+            System.Reflection.PropertyInfo aProp = typeof(Control).GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            aProp.SetValue(c, true, null);
+        }
+
+        private void BuildGrid(int rows, int cols)
+        {
+            ChessBoardGrid.Columns.Clear();
+            for (int col = 0; col < cols; col++)
+            {
+                DataGridViewColumn dataGridViewColumn = new DataGridViewColumn { FillWeight = 1, Width = 41, CellTemplate = new DataGridViewTextBoxCell() };
+                ChessBoardGrid.Columns.Add(dataGridViewColumn);
+            }
+            for (int row = 0; row < rows; row++)
+                ChessBoardGrid.Rows.Add("");
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             solveButton.Enabled = false;
+            boardSizeButton.Enabled = false;
             backgroundWorker1.RunWorkerAsync();
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = board.attemptSolutionWarnsdorf();
+            e.Result = board.AttemptSolutionWarnsdorf();
         }
 
         private void ChessBoardGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -46,7 +66,7 @@ namespace ktour
             }
             else
                 MessageBox.Show("No solution");
-
+            boardSizeButton.Enabled = true;
         }
 
         private void forwardButton_Click(object sender, EventArgs e)
@@ -71,7 +91,10 @@ namespace ktour
                     if (board.SquareStateAt(row, col) == ChessBoard.SquareState.Empty)
                         ChessBoardGrid.Rows[row].Cells[col].Value = "";
                     else if (board.SquareStateAt(row, col) == ChessBoard.SquareState.Occupied)
+                    {
                         ChessBoardGrid.Rows[row].Cells[col].Value = "K";
+                        ChessBoardGrid.CurrentCell = ChessBoardGrid.Rows[row].Cells[col];
+                    }
                     else
                         ChessBoardGrid.Rows[row].Cells[col].Value = "O";
                 }
@@ -89,6 +112,16 @@ namespace ktour
             else
                 backButton.Enabled = false;
             RefreshBoardGrid();
+        }
+
+        private void boardSizeButton_Click(object sender, EventArgs e)
+        {
+            int rows = (int)rowsUpDown.Value;
+            int cols = (int)colsUpDown.Value;
+            board = new ChessBoard(rows, cols);
+            BuildGrid(rows, cols);
+            RefreshBoardGrid();
+            solveButton.Enabled = forwardButton.Enabled = backButton.Enabled = false;
         }
     }
 }
