@@ -43,7 +43,7 @@ namespace ktour
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            e.Result = board.AttemptSolutionWarnsdorf();
+            e.Result = board.AttemptWarnsdorfSolution();
         }
 
         private void ChessBoardGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

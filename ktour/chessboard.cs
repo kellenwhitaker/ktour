@@ -8,38 +8,32 @@ public delegate int MoveCountDelegate(Location loc);
 
 public class ChessBoard
 {
+    #region Fields
 	public enum SquareState { Empty, Visited, Occupied };
 	List<List<SquareState>> squares = new List<List<SquareState>>();
 	Location currentLoc = new Location(-1, -1);
 	Stack<Location> prevLocations = new Stack<Location>();
 	Stack<Location> solution;
 	List<List<int>> numMovesFromSquare = new List<List<int>>();
-  
-	public ChessBoard()
-	{
-        BuildBoard(8, 8);
-	}
+    #endregion
 
-    public bool CanMoveForward()
-    {
-        return solution.Count > 0;
-    }
+    #region Constructors
+	public ChessBoard() => BuildBoard(8, 8);
 
-    public bool CanMoveBack()
-    {
-        return prevLocations.Count > 0;
-    }
+    public ChessBoard(int numRows, int numCols) => BuildBoard(numRows, numCols);
+    #endregion
 
-    public SquareState SquareStateAt(int row, int col)
-    {
-        return squares[row][col];
-    }
+    #region Methods
+    public int NumRows() => squares.Count;
 
-    public ChessBoard(int numRows, int numCols)
-    {
-        BuildBoard(numRows, numCols);
-    }
+	public int NumCols() => squares[0].Count;
 
+    public SquareState SquareStateAt(int row, int col) => squares[row][col];
+
+    public bool CanMoveForward() => solution.Count > 0;
+
+    public bool CanMoveBack() => prevLocations.Count > 0;
+ 
     private void BuildBoard(int numRows, int numCols)
     {
         for (int row = 0; row < numRows; row++)
@@ -54,10 +48,7 @@ public class ChessBoard
         }
     }
   
-	private bool IsLocationInBounds(int row, int col)
-	{
-		return (row >= 0 && row < NumRows() && col >= 0 && col < NumCols());
-	}
+	private bool IsLocationInBounds(int row, int col) => (row >= 0 && row < NumRows() && col >= 0 && col < NumCols());
 
     private void AddOneMoveToSurroundingSquares(Location loc)
     {
@@ -186,7 +177,7 @@ public class ChessBoard
 		}
 	}
   
-	public bool AttemptSolutionWarnsdorf()
+	public bool AttemptWarnsdorfSolution()
 	{
 		Stopwatch watch = new Stopwatch();
 		watch.Start();
@@ -195,7 +186,7 @@ public class ChessBoard
         RecalcNumMovesFromSquares();
 		do
 		{
-            if (NextMoveWarnsdorf(out Location nextMove))
+            if (NextWarnsdorfMove(out Location nextMove))
                 currentLoc.TiedLocation = true;
             
 			if (nextMove.row != -1)
@@ -205,7 +196,6 @@ public class ChessBoard
 					Console.WriteLine(moveCount);
                 currentLoc.MovesTried.Add(nextMove);
                 Move(nextMove);
-                //RecalcNumMovesFromSquares();
                 SubtractOneMoveFromSurroundingSquares(currentLoc);
             }
 			else
@@ -214,7 +204,6 @@ public class ChessBoard
                 {
                     AddOneMoveToSurroundingSquares(currentLoc);
                     TakeBack();
-                    //RecalcNumMovesFromSquares();
                     if (currentLoc.TiedLocation && currentLoc.MovesTried.Count == numMovesFromSquare[currentLoc.row][currentLoc.col])
                         currentLoc.TiedLocation = false;
                     if (currentLoc.TiedLocation)
@@ -241,12 +230,9 @@ public class ChessBoard
             return false;
 	}
 
-    bool CanMoveTo(int row, int col)
-    {
-        return IsLocationInBounds(row, col) && squares[row][col] == SquareState.Empty;
-    }
+    bool CanMoveTo(int row, int col) => IsLocationInBounds(row, col) && squares[row][col] == SquareState.Empty;
 
-	bool NextMoveWarnsdorf(out Location bestMove)
+	bool NextWarnsdorfMove(out Location bestMove)
 	{
 		bestMove = new Location(-1, -1);
         int row = currentLoc.row;
@@ -351,34 +337,5 @@ public class ChessBoard
         }
         return tied;
 	}
-
-	void PrintBoard()
-	{
-		String strRow;
-		for (int row = 0; row < NumRows(); row++)
-		{
-			strRow = "";
-			for (int col = 0; col < NumCols(); col++)
-			{
-				if (squares[row][col] == SquareState.Empty)
-					strRow += "O";
-				else if (squares[row][col] == SquareState.Occupied)
-					strRow += "-";
-				else
-					strRow += "X";
-			}
-			Console.WriteLine(strRow);
-		}
-        Console.WriteLine("");
-	}
-
-	public int NumRows()
-	{
-		return squares.Count;
-	}
-
-	public int NumCols()
-	{
-		return squares[0].Count;
-	}
+    #endregion
 }
