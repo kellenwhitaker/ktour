@@ -140,6 +140,7 @@ public class ChessBoard
         solution = new Stack<Location>();
 		int moveCount = 0;
         RecalcNumMovesFromSquares();
+        bool IsValidSolution = false;
 		do
 		{
             if (NextWarnsdorfMove(out Location nextMove))
@@ -179,12 +180,11 @@ public class ChessBoard
                 TakeBack();
             }
             TakeBack();
+            IsValidSolution = DoubleCheckSolution();            
             Console.WriteLine(watch.ElapsedMilliseconds);
-            return true;
         }
-        else
-            return false;
-	}
+        return IsValidSolution;
+    }
 
     bool CanMoveTo(Location loc) => IsLocationInBounds(loc) && squares[loc.row][loc.col] == SquareState.Empty;
 
@@ -216,5 +216,30 @@ public class ChessBoard
 
         return tied;
 	}
+
+    bool DoubleCheckSolution()
+    {
+        if (solution.Count != NumRows() * NumCols() - 1)
+            return false;
+        bool IsValidSolution = false;
+        while (CanMoveForward()) { MoveSolutionForward(); }
+        int occupied = 0;
+        int visited = 0;
+        for (int row = 0; row < NumRows(); row++)
+            for (int col = 0; col < NumCols(); col++)
+            {
+                if (squares[row][col] == SquareState.Visited)
+                    visited++;
+                else if (squares[row][col] == SquareState.Occupied)
+                    occupied++;
+            }
+
+        if (occupied == 1 && visited == NumRows() * NumCols() - 1)
+            IsValidSolution = true;
+
+        while (CanMoveBack()) { MoveSolutionBack(); }
+
+        return IsValidSolution;
+    }
     #endregion
 }
