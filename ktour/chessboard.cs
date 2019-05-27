@@ -15,10 +15,12 @@ public class ChessBoard
 	Stack<Location> prevLocations = new Stack<Location>();
 	Stack<Location> solution;
 	List<List<int>> numMovesFromSquare = new List<List<int>>();
+    Location[] ValidRelativeMoves = new[] { new Location(1, 2), new Location(-1, 2), new Location(1, -2), new Location(-1, -2),
+        new Location(2, 1), new Location(-2, 1), new Location(2, -1), new Location(-2, -1)};
     #endregion
 
     #region Constructors
-	public ChessBoard() => BuildBoard(8, 8);
+    public ChessBoard() => BuildBoard(8, 8);
 
     public ChessBoard(int numRows, int numCols) => BuildBoard(numRows, numCols);
     #endregion
@@ -52,22 +54,9 @@ public class ChessBoard
 
     private void AddMovesToSurroundingSquares(Location loc, int numberToAdd)
     {
-        if (IsLocationInBounds(loc.row + 1, loc.col + 2))
-            numMovesFromSquare[loc.row + 1][loc.col + 2] += numberToAdd;
-        if (IsLocationInBounds(loc.row - 1, loc.col + 2))
-            numMovesFromSquare[loc.row - 1][loc.col + 2] += numberToAdd;
-        if (IsLocationInBounds(loc.row + 1, loc.col - 2))
-            numMovesFromSquare[loc.row + 1][loc.col - 2] += numberToAdd;
-        if (IsLocationInBounds(loc.row - 1, loc.col - 2))
-            numMovesFromSquare[loc.row - 1][loc.col - 2] += numberToAdd;
-        if (IsLocationInBounds(loc.row + 2, loc.col + 1))
-            numMovesFromSquare[loc.row + 2][loc.col + 1] += numberToAdd;
-        if (IsLocationInBounds(loc.row - 2, loc.col + 1))
-            numMovesFromSquare[loc.row - 2][loc.col + 1] += numberToAdd;
-        if (IsLocationInBounds(loc.row + 2, loc.col - 1))
-            numMovesFromSquare[loc.row + 2][loc.col - 1] += numberToAdd;
-        if (IsLocationInBounds(loc.row - 2, loc.col - 1))
-            numMovesFromSquare[loc.row - 2][loc.col - 1] += numberToAdd;
+        foreach (Location move in ValidRelativeMoves)
+            if (IsLocationInBounds(loc.row + move.row, loc.col + move.col))
+                numMovesFromSquare[loc.row + move.row][loc.col + move.col] += numberToAdd;
     }
   
 	private void RecalcNumMovesFromSquares()
@@ -77,22 +66,10 @@ public class ChessBoard
 			for (int col = 0; col < NumCols(); col++)
 			{
 				numMoves = 0;
-				if (CanMoveTo(row + 1, col + 2))
-					numMoves++;
-				if (CanMoveTo(row - 1, col + 2))
-					numMoves++;
-				if (CanMoveTo(row + 1, col - 2))
-					numMoves++;
-				if (CanMoveTo(row - 1, col - 2))
-					numMoves++;
-				if (CanMoveTo(row + 2, col + 1))
-					numMoves++;
-				if (CanMoveTo(row - 2, col + 1))
-					numMoves++;
-				if (CanMoveTo(row + 2, col - 1))
-					numMoves++;
-				if (CanMoveTo(row - 2, col - 1))
-					numMoves++;
+                foreach (Location move in ValidRelativeMoves)
+                    if (CanMoveTo(row + move.row, col + move.col))
+                        numMoves++;
+
 				numMovesFromSquare[row][col] = numMoves;
 			}
 	}
@@ -234,22 +211,10 @@ public class ChessBoard
         int col = currentLoc.col;
         int lowestMoves = 9;
         bool tied = false;
-        Location move = new Location(row + 1, col + 2);
-        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
-        move = new Location(row - 1, col + 2);
-        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
-        move = new Location(row + 1, col - 2);
-        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
-        move = new Location(row - 1, col - 2);
-        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
-        move = new Location(row + 2, col + 1);
-        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
-        move = new Location(row - 2, col + 1);
-        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
-        move = new Location(row + 2, col - 1);
-        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
-        move = new Location(row - 2, col - 1);
-        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
+
+        foreach (Location move in ValidRelativeMoves)
+            CheckIfBetterMove(new Location(row + move.row, col + move.col), ref bestMove, ref lowestMoves, ref tied);
+
         return tied;
 	}
     #endregion
