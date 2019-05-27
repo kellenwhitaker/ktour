@@ -212,6 +212,21 @@ public class ChessBoard
 
     bool CanMoveTo(int row, int col) => IsLocationInBounds(row, col) && squares[row][col] == SquareState.Empty;
 
+    void CheckIfBetterMove(Location move, ref Location bestMove, ref int lowestMoves, ref bool tied)
+    {
+        if (CanMoveTo(move.row, move.col) && numMovesFromSquare[move.row][move.col] <= lowestMoves 
+            && currentLoc.MovesTried.Where(x => x.row == move.row && x.col == move.col).Count() == 0)
+        {
+            if (numMovesFromSquare[move.row][move.col] == lowestMoves)
+                tied = true;
+            else
+            {
+                tied = false;
+                lowestMoves = numMovesFromSquare[move.row][move.col];
+                bestMove = new Location(move.row, move.col);
+            }
+        }
+    }
 	bool NextWarnsdorfMove(out Location bestMove)
 	{
 		bestMove = new Location(-1, -1);
@@ -220,101 +235,21 @@ public class ChessBoard
         int lowestMoves = 9;
         bool tied = false;
         Location move = new Location(row + 1, col + 2);
-        if (CanMoveTo(move.row, move.col) && numMovesFromSquare[move.row][move.col] <= lowestMoves && currentLoc.MovesTried.Where(x => x.row == move.row && x.col == move.col).Count() == 0)
-        {
-            if (numMovesFromSquare[move.row][move.col] == lowestMoves)
-                tied = true;
-            else
-            {
-                tied = false;
-                lowestMoves = numMovesFromSquare[move.row][move.col];
-                bestMove = new Location(move.row, move.col);
-            }
-        }
+        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
         move = new Location(row - 1, col + 2);
-        if (CanMoveTo(move.row, move.col) && numMovesFromSquare[move.row][move.col] <= lowestMoves && currentLoc.MovesTried.Where(x => x.row == move.row && x.col == move.col).Count() == 0)
-        {
-            if (numMovesFromSquare[move.row][move.col] == lowestMoves)
-                tied = true;
-            else
-            {
-                tied = false;
-                lowestMoves = numMovesFromSquare[move.row][move.col];
-                bestMove = new Location(move.row, move.col);
-            }
-        }
+        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
         move = new Location(row + 1, col - 2);
-        if (CanMoveTo(move.row, move.col) && numMovesFromSquare[move.row][move.col] <= lowestMoves && currentLoc.MovesTried.Where(x => x.row == move.row && x.col == move.col).Count() == 0)
-        {
-            if (numMovesFromSquare[move.row][move.col] == lowestMoves)
-                tied = true;
-            else
-            {
-                tied = false;
-                lowestMoves = numMovesFromSquare[move.row][move.col];
-                bestMove = new Location(move.row, move.col);
-            }
-        }
+        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
         move = new Location(row - 1, col - 2);
-        if (CanMoveTo(move.row, move.col) && numMovesFromSquare[move.row][move.col] <= lowestMoves && currentLoc.MovesTried.Where(x => x.row == move.row && x.col == move.col).Count() == 0)
-        {
-            if (numMovesFromSquare[move.row][move.col] == lowestMoves)
-                tied = true;
-            else
-            {
-                tied = false;
-                lowestMoves = numMovesFromSquare[move.row][move.col];
-                bestMove = new Location(move.row, move.col);
-            }
-        }
+        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
         move = new Location(row + 2, col + 1);
-        if (CanMoveTo(move.row, move.col) && numMovesFromSquare[move.row][move.col] <= lowestMoves && currentLoc.MovesTried.Where(x => x.row == move.row && x.col == move.col).Count() == 0)
-        {
-            if (numMovesFromSquare[move.row][move.col] == lowestMoves)
-                tied = true;
-            else
-            {
-                tied = false;
-                lowestMoves = numMovesFromSquare[move.row][move.col];
-                bestMove = new Location(move.row, move.col);
-            }
-        }
+        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
         move = new Location(row - 2, col + 1);
-        if (CanMoveTo(move.row, move.col) && numMovesFromSquare[move.row][move.col] <= lowestMoves && currentLoc.MovesTried.Where(x => x.row == move.row && x.col == move.col).Count() == 0)
-        {
-            if (numMovesFromSquare[move.row][move.col] == lowestMoves)
-                tied = true;
-            else
-            {
-                tied = false;
-                lowestMoves = numMovesFromSquare[move.row][move.col];
-                bestMove = new Location(move.row, move.col);
-            }
-        }
+        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
         move = new Location(row + 2, col - 1);
-        if (CanMoveTo(move.row, move.col) && numMovesFromSquare[move.row][move.col] <= lowestMoves && currentLoc.MovesTried.Where(x => x.row == move.row && x.col == move.col).Count() == 0)
-        {
-            if (numMovesFromSquare[move.row][move.col] == lowestMoves)
-                tied = true;
-            else
-            {
-                tied = false;
-                lowestMoves = numMovesFromSquare[move.row][move.col];
-                bestMove = new Location(move.row, move.col);
-            }
-        }
+        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
         move = new Location(row - 2, col - 1);
-        if (CanMoveTo(move.row, move.col) && numMovesFromSquare[move.row][move.col] <= lowestMoves && currentLoc.MovesTried.Where(x => x.row == move.row && x.col == move.col).Count() == 0)
-        {
-            if (numMovesFromSquare[move.row][move.col] == lowestMoves)
-                tied = true;
-            else
-            {
-                tied = false;
-                lowestMoves = numMovesFromSquare[move.row][move.col];
-                bestMove = new Location(move.row, move.col);
-            }
-        }
+        CheckIfBetterMove(move, ref bestMove, ref lowestMoves, ref tied);
         return tied;
 	}
     #endregion
