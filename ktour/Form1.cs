@@ -48,7 +48,7 @@ namespace ktour
 
         private void ChessBoardGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (!board.PlaceKnight(e.RowIndex, e.ColumnIndex))
+            if (!board.PlaceKnight(new Location(e.RowIndex, e.ColumnIndex)))
                 MessageBox.Show("Knight has already been placed");
             else
             {

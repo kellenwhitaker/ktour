@@ -50,12 +50,12 @@ public class ChessBoard
         }
     }
   
-	private bool IsLocationInBounds(int row, int col) => (row >= 0 && row < NumRows() && col >= 0 && col < NumCols());
+	private bool IsLocationInBounds(Location loc) => (loc.row >= 0 && loc.row < NumRows() && loc.col >= 0 && loc.col < NumCols());
 
     private void AddMovesToSurroundingSquares(Location loc, int numberToAdd)
     {
         foreach (Location move in ValidRelativeMoves)
-            if (IsLocationInBounds(loc.row + move.row, loc.col + move.col))
+            if (IsLocationInBounds(new Location(loc.row + move.row, loc.col + move.col)))
                 numMovesFromSquare[loc.row + move.row][loc.col + move.col] += numberToAdd;
     }
   
@@ -67,18 +67,18 @@ public class ChessBoard
 			{
 				numMoves = 0;
                 foreach (Location move in ValidRelativeMoves)
-                    if (CanMoveTo(row + move.row, col + move.col))
+                    if (CanMoveTo(new Location(row + move.row, col + move.col)))
                         numMoves++;
 
 				numMovesFromSquare[row][col] = numMoves;
 			}
 	}
 
-    public bool PlaceKnight(int row, int col)
+    public bool PlaceKnight(Location loc)
     {
         if (currentLoc.row == -1)
         {
-            Move(new Location(row, col));
+            Move(loc);
             return true;
         }
         else
@@ -187,11 +187,11 @@ public class ChessBoard
             return false;
 	}
 
-    bool CanMoveTo(int row, int col) => IsLocationInBounds(row, col) && squares[row][col] == SquareState.Empty;
+    bool CanMoveTo(Location loc) => IsLocationInBounds(loc) && squares[loc.row][loc.col] == SquareState.Empty;
 
     void CheckIfBetterMove(Location move, ref Location bestMove, ref int lowestMoves, ref bool tied)
     {
-        if (CanMoveTo(move.row, move.col) && numMovesFromSquare[move.row][move.col] <= lowestMoves 
+        if (CanMoveTo(move) && numMovesFromSquare[move.row][move.col] <= lowestMoves 
             && currentLoc.MovesTried.Where(x => x.row == move.row && x.col == move.col).Count() == 0)
         {
             if (numMovesFromSquare[move.row][move.col] == lowestMoves)
