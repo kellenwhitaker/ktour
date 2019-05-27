@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 
 // Author: Kellen Whitaker
-public delegate int MoveCountDelegate(Location loc);
 
 public class ChessBoard
 {
