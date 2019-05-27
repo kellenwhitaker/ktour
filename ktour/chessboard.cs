@@ -50,46 +50,26 @@ public class ChessBoard
   
 	private bool IsLocationInBounds(int row, int col) => (row >= 0 && row < NumRows() && col >= 0 && col < NumCols());
 
-    private void AddOneMoveToSurroundingSquares(Location loc)
+    private void AddMovesToSurroundingSquares(Location loc, int numberToAdd)
     {
         if (IsLocationInBounds(loc.row + 1, loc.col + 2))
-            numMovesFromSquare[loc.row + 1][loc.col + 2]++;
+            numMovesFromSquare[loc.row + 1][loc.col + 2] += numberToAdd;
         if (IsLocationInBounds(loc.row - 1, loc.col + 2))
-            numMovesFromSquare[loc.row - 1][loc.col + 2]++;
+            numMovesFromSquare[loc.row - 1][loc.col + 2] += numberToAdd;
         if (IsLocationInBounds(loc.row + 1, loc.col - 2))
-            numMovesFromSquare[loc.row + 1][loc.col - 2]++;
+            numMovesFromSquare[loc.row + 1][loc.col - 2] += numberToAdd;
         if (IsLocationInBounds(loc.row - 1, loc.col - 2))
-            numMovesFromSquare[loc.row - 1][loc.col - 2]++;
+            numMovesFromSquare[loc.row - 1][loc.col - 2] += numberToAdd;
         if (IsLocationInBounds(loc.row + 2, loc.col + 1))
-            numMovesFromSquare[loc.row + 2][loc.col + 1]++;
+            numMovesFromSquare[loc.row + 2][loc.col + 1] += numberToAdd;
         if (IsLocationInBounds(loc.row - 2, loc.col + 1))
-            numMovesFromSquare[loc.row - 2][loc.col + 1]++;
+            numMovesFromSquare[loc.row - 2][loc.col + 1] += numberToAdd;
         if (IsLocationInBounds(loc.row + 2, loc.col - 1))
-            numMovesFromSquare[loc.row + 2][loc.col - 1]++;
+            numMovesFromSquare[loc.row + 2][loc.col - 1] += numberToAdd;
         if (IsLocationInBounds(loc.row - 2, loc.col - 1))
-            numMovesFromSquare[loc.row - 2][loc.col - 1]++;
+            numMovesFromSquare[loc.row - 2][loc.col - 1] += numberToAdd;
     }
-
-    private void SubtractOneMoveFromSurroundingSquares(Location loc)
-    {
-        if (IsLocationInBounds(loc.row + 1, loc.col + 2))
-            numMovesFromSquare[loc.row + 1][loc.col + 2]--;
-        if (IsLocationInBounds(loc.row - 1, loc.col + 2))
-            numMovesFromSquare[loc.row - 1][loc.col + 2]--;
-        if (IsLocationInBounds(loc.row + 1, loc.col - 2))
-            numMovesFromSquare[loc.row + 1][loc.col - 2]--;
-        if (IsLocationInBounds(loc.row - 1, loc.col - 2))
-            numMovesFromSquare[loc.row - 1][loc.col - 2]--;
-        if (IsLocationInBounds(loc.row + 2, loc.col + 1))
-            numMovesFromSquare[loc.row + 2][loc.col + 1]--;
-        if (IsLocationInBounds(loc.row - 2, loc.col + 1))
-            numMovesFromSquare[loc.row - 2][loc.col + 1]--;
-        if (IsLocationInBounds(loc.row + 2, loc.col - 1))
-            numMovesFromSquare[loc.row + 2][loc.col - 1]--;
-        if (IsLocationInBounds(loc.row - 2, loc.col - 1))
-            numMovesFromSquare[loc.row - 2][loc.col - 1]--;
-    }
-
+  
 	private void RecalcNumMovesFromSquares()
 	{
 		int numMoves;
@@ -196,13 +176,13 @@ public class ChessBoard
 					Console.WriteLine(moveCount);
                 currentLoc.MovesTried.Add(nextMove);
                 Move(nextMove);
-                SubtractOneMoveFromSurroundingSquares(currentLoc);
+                AddMovesToSurroundingSquares(currentLoc, -1);
             }
 			else
 			{
                 while (prevLocations.Peek() != null)
                 {
-                    AddOneMoveToSurroundingSquares(currentLoc);
+                    AddMovesToSurroundingSquares(currentLoc, 1);
                     TakeBack();
                     if (currentLoc.TiedLocation && currentLoc.MovesTried.Count == numMovesFromSquare[currentLoc.row][currentLoc.col])
                         currentLoc.TiedLocation = false;
