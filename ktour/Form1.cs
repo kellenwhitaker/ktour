@@ -12,6 +12,7 @@ namespace ktour
         {
             InitializeComponent();
             board = new ChessBoard(8, 8);
+            board.BackgroundWorker = solutionBackgroundWorker;
             BuildGrid(8, 8);
             SetDoubleBuffered(ChessBoardGrid);
         }
@@ -120,9 +121,15 @@ namespace ktour
             int rows = (int)rowsUpDown.Value;
             int cols = (int)colsUpDown.Value;
             board = new ChessBoard(rows, cols);
+            board.BackgroundWorker = solutionBackgroundWorker;
             BuildGrid(rows, cols);
             RefreshBoardGrid();
             solveButton.Enabled = forwardButton.Enabled = backButton.Enabled = false;
+        }
+
+        private void SolutionBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            statusLabel.Text = e.UserState?.ToString();
         }
     }
 }

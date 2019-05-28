@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -16,6 +17,7 @@ public class ChessBoard
 	List<List<int>> numMovesFromSquare = new List<List<int>>();
     Location[] ValidRelativeMoves = new[] { new Location(1, 2), new Location(-1, 2), new Location(1, -2), new Location(-1, -2),
         new Location(2, 1), new Location(-2, 1), new Location(2, -1), new Location(-2, -1)};
+    public BackgroundWorker BackgroundWorker { get; set; }
     #endregion
 
     #region Constructors
@@ -149,8 +151,8 @@ public class ChessBoard
 			if (nextMove.row != -1)
 			{
                 moveCount++;
-				if (moveCount % 1000000 == 0)
-					Console.WriteLine(moveCount);
+                if (moveCount % 1000000 == 0)
+                    BackgroundWorker?.ReportProgress(0, $"{moveCount.ToString()} moves searched in {watch.ElapsedMilliseconds} ms");
                 currentLoc.MovesTried.Add(nextMove);
                 Move(nextMove);
                 AddMovesToSurroundingSquares(currentLoc, -1);
@@ -180,8 +182,8 @@ public class ChessBoard
                 TakeBack();
             }
             TakeBack();
-            IsValidSolution = DoubleCheckSolution();            
-            Console.WriteLine(watch.ElapsedMilliseconds);
+            IsValidSolution = DoubleCheckSolution();
+            BackgroundWorker?.ReportProgress(0, $"{moveCount.ToString()} moves searched in {watch.ElapsedMilliseconds} ms");
         }
         return IsValidSolution;
     }

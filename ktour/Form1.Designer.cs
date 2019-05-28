@@ -62,7 +62,9 @@
             // 
             // solutionBackgroundWorker
             // 
+            this.solutionBackgroundWorker.WorkerReportsProgress = true;
             this.solutionBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.solutionBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.SolutionBackgroundWorker_ProgressChanged);
             this.solutionBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // ChessBoardGrid
