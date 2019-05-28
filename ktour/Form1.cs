@@ -8,6 +8,7 @@ namespace ktour
     {
         private ChessBoard board;
 
+        #region Constructors
         public Form1()
         {
             InitializeComponent();
@@ -16,7 +17,9 @@ namespace ktour
             BuildGrid(8, 8);
             SetDoubleBuffered(ChessBoardGrid);
         }
+        #endregion
 
+        #region Methods
         public static void SetDoubleBuffered(Control c)
         {
             System.Reflection.PropertyInfo aProp = typeof(Control).GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
@@ -34,57 +37,6 @@ namespace ktour
             for (int row = 0; row < rows; row++)
                 ChessBoardGrid.Rows.Add("");
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            solveButton.Enabled = false;
-            boardSizeButton.Enabled = false;
-            solutionBackgroundWorker.RunWorkerAsync();
-        }
-
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-            e.Result = board.AttemptWarnsdorfSolution();
-        }
-
-        private void ChessBoardGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (!board.PlaceKnight(new Location(e.RowIndex, e.ColumnIndex)))
-                MessageBox.Show("Knight has already been placed");
-            else
-            {
-                ChessBoardGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "K";
-                statusLabel.Text = "";
-                solveButton.Enabled = true;
-            }
-        }
-
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if ((bool)e.Result)
-            {
-                forwardButton.Enabled = true;
-                MessageBox.Show("Solution found");
-            }
-            else
-                MessageBox.Show("No solution");
-            boardSizeButton.Enabled = true;
-        }
-
-        private void forwardButton_Click(object sender, EventArgs e)
-        {
-            board.MoveSolutionForward();
-            if (board.CanMoveForward())
-                forwardButton.Enabled = true;
-            else
-                forwardButton.Enabled = false;
-            if (board.CanMoveBack())
-                backButton.Enabled = true;
-            else
-                backButton.Enabled = false;
-            RefreshBoardGrid();
-        }
-
         private void RefreshBoardGrid()
         {
             for (int row = 0; row < board.NumRows(); row++)
@@ -101,7 +53,62 @@ namespace ktour
                         ChessBoardGrid.Rows[row].Cells[col].Value = "O";
                 }
         }
+        #endregion
 
+        #region Events
+        private void solutionBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            e.Result = board.AttemptWarnsdorfSolution();
+        }
+        private void solutionBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if ((bool)e.Result)
+            {
+                forwardButton.Enabled = true;
+                MessageBox.Show("Solution found");
+            }
+            else
+                MessageBox.Show("No solution");
+            boardSizeButton.Enabled = true;
+        }
+
+        private void SolutionBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            statusLabel.Text = e.UserState?.ToString();
+        }
+
+        private void solveButton_Click(object sender, EventArgs e)
+        {
+            solveButton.Enabled = false;
+            boardSizeButton.Enabled = false;
+            solutionBackgroundWorker.RunWorkerAsync();
+        }
+        private void ChessBoardGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!board.PlaceKnight(new Location(e.RowIndex, e.ColumnIndex)))
+                MessageBox.Show("Knight has already been placed");
+            else
+            {
+                ChessBoardGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "K";
+                statusLabel.Text = "";
+                solveButton.Enabled = true;
+            }
+        }
+
+        private void forwardButton_Click(object sender, EventArgs e)
+        {
+            board.MoveSolutionForward();
+            if (board.CanMoveForward())
+                forwardButton.Enabled = true;
+            else
+                forwardButton.Enabled = false;
+            if (board.CanMoveBack())
+                backButton.Enabled = true;
+            else
+                backButton.Enabled = false;
+            RefreshBoardGrid();
+        }
+      
         private void backButton_Click(object sender, EventArgs e)
         {
             board.MoveSolutionBack();
@@ -125,11 +132,7 @@ namespace ktour
             BuildGrid(rows, cols);
             RefreshBoardGrid();
             solveButton.Enabled = forwardButton.Enabled = backButton.Enabled = false;
-        }
-
-        private void SolutionBackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            statusLabel.Text = e.UserState?.ToString();
-        }
+        }       
+        #endregion
     }
 }

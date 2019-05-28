@@ -34,12 +34,12 @@
             this.forwardButton = new System.Windows.Forms.Button();
             this.backButton = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.statusLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.colsUpDown = new System.Windows.Forms.NumericUpDown();
             this.rowsUpDown = new System.Windows.Forms.NumericUpDown();
             this.boardSizeButton = new System.Windows.Forms.Button();
-            this.statusLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ChessBoardGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -58,14 +58,14 @@
             this.solveButton.TabIndex = 0;
             this.solveButton.Text = "Solve";
             this.solveButton.UseVisualStyleBackColor = true;
-            this.solveButton.Click += new System.EventHandler(this.button1_Click);
+            this.solveButton.Click += new System.EventHandler(this.solveButton_Click);
             // 
             // solutionBackgroundWorker
             // 
             this.solutionBackgroundWorker.WorkerReportsProgress = true;
-            this.solutionBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.solutionBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.solutionBackgroundWorker_DoWork);
             this.solutionBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.SolutionBackgroundWorker_ProgressChanged);
-            this.solutionBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            this.solutionBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.solutionBackgroundWorker_RunWorkerCompleted);
             // 
             // ChessBoardGrid
             // 
@@ -136,6 +136,15 @@
             this.splitContainer1.Size = new System.Drawing.Size(631, 441);
             this.splitContainer1.SplitterDistance = 47;
             this.splitContainer1.TabIndex = 4;
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.Location = new System.Drawing.Point(3, 29);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(238, 13);
+            this.statusLabel.TabIndex = 9;
+            this.statusLabel.Text = "Double-click a starting square to place the knight";
             // 
             // label2
             // 
@@ -209,15 +218,6 @@
             this.boardSizeButton.UseVisualStyleBackColor = true;
             this.boardSizeButton.Click += new System.EventHandler(this.boardSizeButton_Click);
             // 
-            // statusLabel
-            // 
-            this.statusLabel.AutoSize = true;
-            this.statusLabel.Location = new System.Drawing.Point(3, 29);
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(238, 13);
-            this.statusLabel.TabIndex = 9;
-            this.statusLabel.Text = "Double-click a starting square to place the knight";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -225,7 +225,7 @@
             this.ClientSize = new System.Drawing.Size(631, 441);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Knight\'s Tour";
             ((System.ComponentModel.ISupportInitialize)(this.ChessBoardGrid)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
