@@ -53,6 +53,7 @@ namespace ktour
             else
             {
                 ChessBoardGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "K";
+                statusLabel.Text = "";
                 solveButton.Enabled = true;
             }
         }

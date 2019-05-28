@@ -34,18 +34,19 @@
             this.forwardButton = new System.Windows.Forms.Button();
             this.backButton = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.boardSizeButton = new System.Windows.Forms.Button();
-            this.rowsUpDown = new System.Windows.Forms.NumericUpDown();
-            this.colsUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.colsUpDown = new System.Windows.Forms.NumericUpDown();
+            this.rowsUpDown = new System.Windows.Forms.NumericUpDown();
+            this.boardSizeButton = new System.Windows.Forms.Button();
+            this.statusLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ChessBoardGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rowsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.colsUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rowsUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // solveButton
@@ -117,6 +118,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.statusLabel);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this.colsUpDown);
@@ -133,37 +135,23 @@
             this.splitContainer1.SplitterDistance = 47;
             this.splitContainer1.TabIndex = 4;
             // 
-            // boardSizeButton
+            // label2
             // 
-            this.boardSizeButton.Location = new System.Drawing.Point(430, 4);
-            this.boardSizeButton.Name = "boardSizeButton";
-            this.boardSizeButton.Size = new System.Drawing.Size(146, 23);
-            this.boardSizeButton.TabIndex = 4;
-            this.boardSizeButton.Text = "Change Board Size/Reset";
-            this.boardSizeButton.UseVisualStyleBackColor = true;
-            this.boardSizeButton.Click += new System.EventHandler(this.boardSizeButton_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(349, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(30, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Cols:";
             // 
-            // rowsUpDown
+            // label1
             // 
-            this.rowsUpDown.Location = new System.Drawing.Point(300, 6);
-            this.rowsUpDown.Maximum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            this.rowsUpDown.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.rowsUpDown.Name = "rowsUpDown";
-            this.rowsUpDown.Size = new System.Drawing.Size(43, 20);
-            this.rowsUpDown.TabIndex = 5;
-            this.rowsUpDown.Value = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(257, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(37, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Rows:";
             // 
             // colsUpDown
             // 
@@ -187,23 +175,46 @@
             0,
             0});
             // 
-            // label1
+            // rowsUpDown
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(257, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Rows:";
+            this.rowsUpDown.Location = new System.Drawing.Point(300, 6);
+            this.rowsUpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.rowsUpDown.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.rowsUpDown.Name = "rowsUpDown";
+            this.rowsUpDown.Size = new System.Drawing.Size(43, 20);
+            this.rowsUpDown.TabIndex = 5;
+            this.rowsUpDown.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
             // 
-            // label2
+            // boardSizeButton
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(349, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Cols:";
+            this.boardSizeButton.Location = new System.Drawing.Point(430, 4);
+            this.boardSizeButton.Name = "boardSizeButton";
+            this.boardSizeButton.Size = new System.Drawing.Size(146, 23);
+            this.boardSizeButton.TabIndex = 4;
+            this.boardSizeButton.Text = "Change Board Size/Reset";
+            this.boardSizeButton.UseVisualStyleBackColor = true;
+            this.boardSizeButton.Click += new System.EventHandler(this.boardSizeButton_Click);
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.Location = new System.Drawing.Point(3, 29);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(238, 13);
+            this.statusLabel.TabIndex = 9;
+            this.statusLabel.Text = "Double-click a starting square to place the knight";
             // 
             // Form1
             // 
@@ -219,8 +230,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.rowsUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.colsUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rowsUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -238,6 +249,7 @@
         private System.Windows.Forms.NumericUpDown rowsUpDown;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label statusLabel;
     }
 }
 
