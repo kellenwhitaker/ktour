@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.solveButton = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.solutionBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.ChessBoardGrid = new System.Windows.Forms.DataGridView();
             this.forwardButton = new System.Windows.Forms.Button();
             this.backButton = new System.Windows.Forms.Button();
@@ -60,10 +60,10 @@
             this.solveButton.UseVisualStyleBackColor = true;
             this.solveButton.Click += new System.EventHandler(this.button1_Click);
             // 
-            // backgroundWorker1
+            // solutionBackgroundWorker
             // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            this.solutionBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.solutionBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // ChessBoardGrid
             // 
@@ -239,7 +239,7 @@
         #endregion
 
         private System.Windows.Forms.Button solveButton;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.ComponentModel.BackgroundWorker solutionBackgroundWorker;
         private System.Windows.Forms.DataGridView ChessBoardGrid;
         private System.Windows.Forms.Button forwardButton;
         private System.Windows.Forms.Button backButton;

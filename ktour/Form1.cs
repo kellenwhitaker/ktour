@@ -38,7 +38,7 @@ namespace ktour
         {
             solveButton.Enabled = false;
             boardSizeButton.Enabled = false;
-            backgroundWorker1.RunWorkerAsync();
+            solutionBackgroundWorker.RunWorkerAsync();
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
